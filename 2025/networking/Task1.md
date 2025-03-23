@@ -78,3 +78,16 @@ DevOps Context: The configuration of network infrastructure involves selecting t
 Example:
 
 A server sends data over an Ethernet cable to a switch. The Physical Layer deals with the actual transmission of electrical signals through the cable.
+
+How it all ties together in DevOps:
+In a DevOps pipeline, understanding these layers is crucial for ensuring smooth communication between components in a distributed system (e.g., microservices or containers). For instance, when deploying services to production:
+
+The Application Layer deals with web servers serving APIs.
+
+The Transport Layer ensures services reliably communicate over TCP.
+
+The Network Layer ensures routing and handling of IP addresses between services.
+
+The Data Link Layer ensures communication within local networks.
+
+By optimizing each layer, you ensure a robust, secure, and high-performing infrastructure that supports applications at scale.
