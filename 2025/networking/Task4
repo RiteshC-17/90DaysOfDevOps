@@ -1,0 +1,99 @@
+Practice essential networking commands like:
+ping (check connectivity)
+traceroute / tracert (trace packet routes)
+netstat (network statistics)
+curl (make HTTP requests)
+dig / nslookup (DNS lookup)
+Task: Create a cheat sheet or short guide explaining the purpose and usage of each command.
+
+1. Ping (Check Connectivity)
+Purpose: Checks if a device (e.g., server, router) is reachable over the network.
+
+Usage:
+ping [hostname or IP address]
+
+Example:
+ping google.com
+Explanation: Sends ICMP Echo Request packets to the target and waits for a response. Useful for testing network connection and latency.
+
+2. Traceroute / Tracert (Trace Packet Routes)
+Purpose: Traces the path packets take to reach a destination and shows where delays occur.
+
+Usage:
+
+Linux/macOS: traceroute [hostname or IP address]
+
+Windows: tracert [hostname or IP address]
+
+Example:
+traceroute google.com
+tracert google.com
+Explanation: Displays the route (hops) and the time it takes to reach each router along the way.
+
+3. Netstat (Network Statistics)
+Purpose: Displays network connections, routing tables, interface statistics, and other network-related information.
+
+Usage:
+netstat [options]
+
+Common Options:
+
+-a: Displays all active connections and listening ports.
+
+-t: Shows TCP connections.
+
+-u: Shows UDP connections.
+
+-l: Displays only listening ports.
+
+Example:
+netstat -tuln
+Explanation: Shows the list of listening ports and established connections, useful for troubleshooting network issues.
+
+4. Curl (Make HTTP Requests)
+Purpose: Transfers data from or to a server using various protocols (mostly HTTP/HTTPS).
+
+Usage:
+curl [options] [URL]
+Common Options:
+
+-I: Fetches the HTTP headers only.
+
+-X: Specifies the HTTP request method (e.g., GET, POST).
+
+-L: Follows redirects.
+
+Example:
+curl https://example.com
+curl -I https://example.com
+Explanation: Useful for testing web servers, retrieving HTTP headers, or sending POST requests.
+
+5. Dig / Nslookup (DNS Lookup)
+Purpose: Queries DNS to obtain domain name information such as IP addresses and record types.
+
+Usage:
+
+Linux/macOS: dig [domain]
+
+Windows: nslookup [domain]
+
+Example:
+dig google.com
+nslookup google.com
+Explanation: Provides detailed DNS query information. Dig is more advanced, while Nslookup is simpler and available on all platforms.
+
+Summary
+Ping: Check connectivity and response time.
+
+Traceroute/Tracert: Trace the path of packets and identify bottlenecks.
+
+Netstat: Display active network connections and ports.
+
+Curl: Send HTTP requests to web servers for testing.
+
+Dig/Nslookup: Perform DNS queries to get domain-related information.
+
+Use these commands to diagnose and troubleshoot network issues effectively!
+
+
+
