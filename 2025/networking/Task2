@@ -1,5 +1,7 @@
 Task : Task: Create a blog, article, GitHub page, or README listing these protocols and explaining their relevance to DevOps workflows.
 
+In DevOps, networking protocols play a crucial role in ensuring smooth communication between services, applications, and users. Understanding these protocols helps in optimizing workflows and troubleshooting issues in modern, distributed environments.
+
 1. HTTP (Hypertext Transfer Protocol)
 Layer: Application Layer (Layer 7)
 
