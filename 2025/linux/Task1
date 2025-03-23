@@ -1,0 +1,67 @@
+1️⃣ User & Group Management
+Learn about Linux users, groups, and permissions (/etc/passwd, /etc/group).
+Task:
+Create a user devops_user and add them to a group devops_team.
+Set a password and grant sudo access.
+Restrict SSH login for certain users in /etc/ssh/sshd_config.
+
+In Linux, managing users, groups, and permissions is crucial for maintaining security and control. Let's break down how to manage users, groups, set permissions, and restrict SSH access.
+
+1️⃣ Creating a User and Adding to a Group
+1.Create a user: Use the useradd command to create a new user.
+sudo useradd devops_user
+Explanation: Creates a user named devops_user.
+
+2.Create a group: Use the groupadd command to create a new group.
+sudo groupadd devops_team
+
+3.Add user to group: Use usermod to add the user to the group.
+sudo usermod -aG devops_team devops_user
+Explanation: Adds devops_user to the devops_team group.
+
+2️⃣ Set a Password for the User
+Set password: Use passwd to set a password for the user.
+sudo passwd devops_user
+Explanation: Prompts you to enter a new password for devops_user.
+
+3️⃣ Grant Sudo Access to the User
+1.Edit sudoers file: To give devops_user sudo privileges, add the user to the sudoers file.
+sudo visudo
+
+2.Add the following line (under the User privilege section):
+devops_user  ALL=(ALL) NOPASSWD: ALL
+Explanation: Grants devops_user full sudo privileges without a password prompt.
+
+4️⃣ Restrict SSH Login for Certain Users
+Edit the SSH configuration: To restrict SSH login for certain users, modify /etc/ssh/sshd_config.
+
+1.Open the SSH config file:
+sudo nano /etc/ssh/sshd_config
+
+2.Add the following line to deny SSH login for specific users:
+DenyUsers user1 user2
+Explanation: Replace user1 and user2 with the usernames you want to restrict from SSH login.
+
+After making changes, restart SSH service:
+sudo systemctl restart sshd
+
+Configuration Files
+/etc/passwd: Contains user account information.
+
+/etc/group: Contains group information.
+
+/etc/ssh/sshd_config: Configures SSH settings, including user restrictions.
+
+Summary
+Create a User: sudo useradd devops_user
+
+Create a Group: sudo groupadd devops_team
+
+Add User to Group: sudo usermod -aG devops_team devops_user
+
+Set Password: sudo passwd devops_user
+
+Grant Sudo Access: Edit /etc/sudoers via sudo visudo
+
+Restrict SSH Access: Modify /etc/ssh/sshd_config and add DenyUsers.
+
