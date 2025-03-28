@@ -1,0 +1,43 @@
+Task:
+Create /devops_workspace and a file project_notes.txt.
+Set permissions:
+Owner can edit, group can read, others have no access.
+Use ls -l to verify permissions.
+
+1.Create the /devops_workspace directory: You can use the mkdir command to create the directory.
+mkdir /devops_workspace
+
+2.Create the project_notes.txt file: Inside the /devops_workspace directory, create the file project_notes.txt.
+touch /devops_workspace/project_notes.txt
+
+3.Set permissions: You want the following permissions:
+
+Owner: Read, write, and execute (can edit)
+
+Group: Read only
+
+Others: No access
+
+4.To achieve this, use the chmod command to set the permissions.
+chmod 740 /devops_workspace/project_notes.txt
+Here’s how the permissions break down:
+
+7 (owner): read (4) + write (2) + execute (1) = 7
+
+4 (group): read (4)
+
+0 (others): no access
+
+5.Verify the permissions: Use the ls -l command to verify the permissions of the file.
+ls -l /devops_workspace/project_notes.txt
+
+The output should look something like this:
+
+-rwxr----- 1 owner group 0 Mar 28 10:00 /devops_workspace/project_notes.txt
+In this output:
+
+The first rwx indicates the owner has read, write, and execute permissions.
+
+The next r-- indicates the group has read-only permissions.
+
+The final --- means others have no access.
