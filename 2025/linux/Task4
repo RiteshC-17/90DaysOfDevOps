@@ -1,0 +1,217 @@
+4️⃣ Volume Management & Disk Usage
+Task:
+Create a directory /mnt/devops_data.
+Mount a new volume (or loop device for local practice).
+Verify using df -h and mount | grep devops_data.
+
+
+Step 1: Create Directory /mnt/devops_data
+Command:
+sudo mkdir -p /mnt/devops_data
+
+Expected Output:
+There is no output, but if successful, the directory /mnt/devops_data will be created.
+
+Verification:
+
+ls -l /mnt/devops_data
+
+Expected Output (if directory was created successfully):
+
+drwxr-xr-x 2 root root 4096 Mar 28 16:42 /mnt/devops_data
+Step 2: Attach a New EBS Volume (AWS)
+Steps in AWS Console:
+Login to AWS Console → Navigate to EC2 Dashboard.
+
+Create a New Volume:
+
+Go to Elastic Block Store → Volumes → Create Volume.
+
+Set:
+
+Size: 1 GB
+
+Volume Type: General Purpose SSD (gp3)
+
+Availability Zone: Same as EC2 instance.
+
+Click Create Volume.
+
+Attach Volume to EC2:
+
+Select the new volume in the Volumes section.
+
+Click on Actions → Attach Volume.
+
+Choose your EC2 instance and click Attach.
+
+Step 3: SSH into EC2 Instance
+
+Command:
+ssh -i your-key.pem ec2-user@your-ec2-public-ip
+Expected Output:
+Upon successful connection, you’ll be logged into the EC2 instance:
+
+Last login: Thu Mar 28 16:45:22 2025 from 203.0.113.0
+[ec2-user@ip-172-31-20-123 ~]$
+Step 4: List Available Disks (Verify Volume)
+After attaching the volume, use lsblk to list available disks:
+
+Command:
+lsblk
+Expected Output:
+This will show all available disks and partitions. You should see your attached volume (/dev/xvdf or /dev/sdf):
+
+NAME    MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+xvda    202:0    0    8G  0 disk 
+└─xvda1 202:1    0    8G  0 part /
+xvdf    202:80   0    1G  0 disk
+Here, /dev/xvdf is the newly attached volume.
+
+Step 5: Format the New Volume
+Now format the newly attached volume (/dev/xvdf) to be used:
+
+Command:
+sudo mkfs.ext4 /dev/xvdf
+Expected Output:
+mke2fs 1.45.6 (20-Mar-2020)
+Creating filesystem with 262144 4k blocks and 65536 inodes
+Filesystem UUID: c9ef6471-7ed8-48f4-9f93-320cfb070f38
+Superblock backups stored on blocks:
+    32768, 98304, 163840, 229376, 294912
+This creates an ext4 filesystem on /dev/xvdf.
+
+Step 6: Mount the New Volume
+Next, mount the volume to the /mnt/devops_data directory:
+
+Command:
+sudo mount /dev/xvdf /mnt/devops_data
+Expected Output:
+There will be no output on successful mount, but you can verify the mount by running:
+
+df -h /mnt/devops_data
+Expected Output:
+
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvdf       1.0G   16M  928M   2% /mnt/devops_data
+Explanation:
+
+Size: The size of the mounted volume (1 GB).
+
+Used: How much space is used.
+
+Avail: How much space is available.
+
+Use%: Percentage of space used.
+
+Mounted on: The mount point (/mnt/devops_data).
+
+Step 7: Verify the Mount
+Verify the mounted volume using the mount command:
+
+Command:
+mount | grep devops_data
+Expected Output:
+/dev/xvdf on /mnt/devops_data type ext4 (rw)
+This shows the device (/dev/xvdf) is mounted on /mnt/devops_data with read-write permissions.
+
+Step 8: Ensure Auto-Mount on Reboot
+If you want the volume to be mounted automatically after reboot, you need to modify /etc/fstab.
+
+Edit /etc/fstab to add an entry for the new volume:
+
+Command:
+sudo nano /etc/fstab
+Add the following line at the end:
+
+/dev/xvdf   /mnt/devops_data   ext4   defaults,nofail   0   2
+/dev/xvdf: Device name of the volume.
+
+/mnt/devops_data: The mount point.
+
+ext4: Filesystem type.
+
+defaults,nofail: Default mount options and nofail ensures the system won't fail to boot if the volume isn't available.
+
+Save the file and exit (CTRL + X, then Y, then Enter).
+
+Verification: To verify that the volume is automatically mounted on reboot, reboot the system:
+
+sudo reboot
+After rebooting, SSH back into the EC2 instance and check if the volume is still mounted:
+
+df -h /mnt/devops_data
+Expected Output (After Reboot):
+
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvdf       1.0G   16M  928M   2% /mnt/devops_data
+Step 9: Cleanup (Optional)
+If you're done with the volume, you can unmount and detach it from the EC2 instance.
+
+Unmount the Volume:
+sudo umount /mnt/devops_data
+Expected Output: No output if successful.
+
+Detach the Volume in AWS Console:
+Go to the EC2 Dashboard → Volumes.
+
+Select the volume you attached earlier.
+
+Click Actions → Detach Volume.
+
+Final Summary of Key Commands with Expected Output:
+Create Directory:
+
+sudo mkdir -p /mnt/devops_data
+No output, verify with ls -l /mnt/devops_data.
+
+Create and Attach Volume (AWS Console):
+
+Create a volume and attach it via the AWS Management Console.
+
+SSH into EC2 Instance:
+
+ssh -i your-key.pem ec2-user@your-ec2-public-ip
+List Disks:
+
+lsblk
+Expected Output:
+
+NAME    MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+xvda    202:0    0    8G  0 disk 
+└─xvda1 202:1    0    8G  0 part /
+xvdf    202:80   0    1G  0 disk
+Format Volume:
+
+sudo mkfs.ext4 /dev/xvdf
+Expected Output:
+
+Creating filesystem with 262144 4k blocks and 65536 inodes
+Mount Volume:
+
+sudo mount /dev/xvdf /mnt/devops_data
+Verify:
+
+df -h /mnt/devops_data
+Expected Output:
+
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvdf       1.0G   16M  928M   2% /mnt/devops_data
+Verify Mount:
+
+mount | grep devops_data
+Expected Output:
+
+/dev/xvdf on /mnt/devops_data type ext4 (rw)
+Ensure Auto-Mount: Edit /etc/fstab and add:
+
+/dev/xvdf   /mnt/devops_data   ext4   defaults,nofail   0   2
+Cleanup: Unmount:
+
+sudo umount /mnt/devops_data
+Detach Volume in AWS Console.
+
+With these steps and outputs, you'll be able to mount both local loop devices and AWS EBS volumes while verifying and ensuring persistent mounts across reboots.
+
+
+
