@@ -1,0 +1,89 @@
+5️⃣ Process Management & Monitoring
+Task:
+Start a background process (ping google.com > ping_test.log &).
+Use ps, top, and htop to monitor it.
+Kill the process and verify it's gone.
+
+1. Start the background process
+You execute the command to start the background process:
+
+ping google.com > ping_test.log &
+The output is typically something like this:
+[1] 12345
+Here, 12345 is the process ID (PID) of the background ping process. This confirms the command is running in the background.
+
+2. Monitor the process using ps
+You check running processes with the ps command:
+ps aux | grep ping
+
+Expected output:
+
+user     12345  0.0  0.1  123456  2340 pts/0    S    14:25   0:00 ping google.com
+user     12346  0.0  0.0   6200   872 pts/0    S+   14:25   0:00 grep --color=auto ping
+The line starting with user and PID 12345 is the ping process.
+
+The second line is the grep command you just executed to filter for ping, and can be ignored.
+
+3. Monitor the process using top
+You open the top command:
+
+top
+You’ll see a live, updating list of processes. Look for the ping process in the list, which will show something like this:
+
+output:
+PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+12345 user      20   0   123456   2340   1230 S   0.0  0.1   0:00.12 ping
+The ping process will appear, and you can monitor its CPU and memory usage in real-time.
+
+4. Monitor the process using htop
+If you have htop installed, you can run:
+
+htop
+In htop, you’ll see a colorful, interactive list of processes. You should see something like this:
+
+PID   USER      TIME  COMMAND
+12345 user      0.0s  ping google.com
+You can navigate through htop to find the ping process easily.
+
+5. Kill the process
+Now that you know the PID (let’s assume it's 12345), you can kill the process:
+
+kill 12345
+Or forcefully:
+
+kill -9 12345
+After running this command, there will be no output if the process is successfully killed. However, you can verify if it's gone using ps, top, or htop.
+
+6. Verify the process is gone
+After killing the process, you can run the ps command again:
+
+ps aux | grep ping
+Expected output:
+
+user     12346  0.0  0.0   6200   872 pts/0    S+   14:25   0:00 grep --color=auto ping
+Here, only the grep command shows up (the ping process is no longer listed).
+
+Alternatively, you can run:
+
+top
+Or:
+
+htop
+The ping process will no longer appear in the list.
+
+Summary of the steps and outputs:
+Start the background process: ping google.com > ping_test.log & → [1] 12345
+
+Monitor with ps: ps aux | grep ping → Shows the ping process with PID 12345.
+
+Monitor with top: top → Lists ping running with CPU usage.
+
+Monitor with htop: htop → Lists ping running interactively.
+
+Kill the process: kill 12345 → No output if killed successfully.
+
+Verify the process is gone: ps aux | grep ping → No ping process listed anymore.
+
+
+
+
