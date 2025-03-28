@@ -1,0 +1,104 @@
+6️⃣ Automate Backups with Shell Scripting
+Task:
+Write a shell script to back up /devops_workspace as backup_$(date +%F).tar.gz.
+Save it in /backups and schedule it using cron.
+Make the script display a success message in green text using echo -e.
+
+
+Step 1: Write the shell script
+Create the shell script file:
+
+nano /path/to/backup_script.sh
+Add the following content to the file:
+
+#!/bin/bash
+
+# Set the source and backup directories
+SOURCE_DIR="/devops_workspace"
+BACKUP_DIR="/backups"
+
+# Create the backup filename with the current date
+BACKUP_FILENAME="backup_$(date +%F).tar.gz"
+
+# Create the backup
+tar -czf "$BACKUP_DIR/$BACKUP_FILENAME" "$SOURCE_DIR"
+
+# Check if the backup was successful
+if [ $? -eq 0 ]; then
+  # Success message in green
+  echo -e "\033[0;32mBackup of $SOURCE_DIR completed successfully. Backup saved as $BACKUP_DIR/$BACKUP_FILENAME\033[0m"
+else
+  # Error message in red
+  echo -e "\033[0;31mBackup failed!\033[0m"
+fi
+
+Explanation:
+
+This script backs up /devops_workspace into /backups/backup_YYYY-MM-DD.tar.gz, where YYYY-MM-DD is the current date.
+
+It then checks if the backup was successful and prints a success message in green or an error message in red.
+
+Make the script executable:
+
+chmod +x /path/to/backup_script.sh
+Step 2: Schedule the script using cron
+Open the cron table for editing:
+
+crontab -e
+Add a cron job to run the script daily at 2 AM:
+
+0 2 * * * /path/to/backup_script.sh
+
+Explanation:
+
+0 2 * * *: Runs the script at 2:00 AM every day.
+
+/path/to/backup_script.sh: Full path to your backup script.
+
+Save and exit the editor (CTRL + X, then Y, then Enter).
+
+Step 3: Verify the cron job
+To ensure the cron job is scheduled, list the cron jobs:
+
+crontab -l
+Expected output (showing the cron job you added):
+
+0 2 * * * /path/to/backup_script.sh
+
+Step 4: Test the script manually
+Before relying on cron, manually test the script to ensure it works. Run the script:
+/path/to/backup_script.sh
+
+Expected Output:
+
+If the backup is successful, you’ll see something like:
+
+Backup of /devops_workspace completed successfully. Backup saved as /backups/backup_2025-03-28.tar.gz
+This message will be printed in green text due to the echo -e "\033[0;32m... \033[0m" part of the script.
+
+If the backup fails (e.g., if /devops_workspace doesn't exist):
+
+Backup failed!
+This message will be printed in red text because of echo -e "\033[0;31m... \033[0m".
+
+Step 5: Check the backup file
+Once the script runs successfully, check the backup file created in the /backups directory:
+
+ls /backups
+You should see a file named like:
+
+backup_2025-03-28.tar.gz
+Summary of Key Steps and Output:
+Shell Script: Backs up /devops_workspace to /backups/backup_YYYY-MM-DD.tar.gz and prints a success message in green if successful.
+
+Cron Job: Schedules the backup script to run daily at 2 AM.
+
+Manual Test: Running the script manually shows the success message in green or an error message in red.
+
+Backup File: The backup file is stored in /backups with a timestamped name.
+
+By following these steps, you can automate your backups and ensure they are handled on a schedule with proper success/error messaging.
+
+
+
+
